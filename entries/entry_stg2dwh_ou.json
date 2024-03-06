@@ -1,0 +1,88 @@
+{
+    "job_id": "entry_stg2dwh_ou",
+    "step_function": "arn:aws:states:ap-southeast-1:{{ aws_account }}:stateMachine:{{ prefix_orcs }}-orcs_glue_job_v1",
+    "data_time": {
+      "type": "date",
+      "extract": {
+        "func": "get_event_data_date",
+        "kwargs": {
+          "delta": 0
+        }
+      }
+    },
+    "finish_events": [
+      {
+        "name": "entry_stg2dwh_ou",
+        "forward_params": true
+      }
+    ],
+    "trigger_events": [
+      "entry_tbaadm_sol",
+      "entry_tbaadm_sst",
+      "entry_tbaadm_stid",
+      "entry_tbaadm_rct"
+    ],
+    "conditions": [
+      {
+        "name" : "all_jobs_succeeded",  
+        "params" : {
+             "job_ids" : [
+              "entry_tbaadm_sol",
+              "entry_tbaadm_sst",
+              "entry_tbaadm_stid",
+              "entry_tbaadm_rct"
+            ],
+             "within"  : 86400
+         }
+      }
+    ],
+    "priority": 1,
+    "step_function_input": {
+      "glue_job_config": {
+        "Inputs": [
+          {
+            "name": "sol",
+            "reader_type": "catalog_sql",
+            "query": "select * from glue_catalog.`{{ prefix_data }}-staging`.sol"
+          },
+          {
+            "name": "sst",
+            "reader_type": "catalog_sql",
+            "query": "select * from glue_catalog.`{{ prefix_data }}-staging`.sst"
+          },
+          {
+            "name": "stid",
+            "reader_type": "catalog_sql",
+            "query": "select * from glue_catalog.`{{ prefix_data }}-staging`.stid"
+          },
+          {
+            "name": "rct",
+            "reader_type": "catalog_sql",
+            "query": "select * from glue_catalog.`{{ prefix_data }}-staging`.rct"
+          }    
+        ],
+        "Outputs": [
+          {
+            "input_names": [
+              "staging"
+            ],
+            "targets": [
+              {
+                "writer_type": "scd1",
+                "catalog_name": "glue_catalog",
+                "tbl_name": "ou",
+                "db_name": "{{ prefix_data }}-dwh"
+              }
+            ]
+          }
+        ]
+      },
+      "glue_job": "{{ prefix_glue_job }}-dwh-ou",
+      "glue_crawler": []
+    },
+    "is_disable": false,
+    "tags": [
+      "dwh",
+      "ou"
+    ]
+  }

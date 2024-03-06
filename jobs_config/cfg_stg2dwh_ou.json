@@ -1,0 +1,13 @@
+{
+    "GlueJobName": "stg2dwh_ou",
+    "Glue_Version": "4.0",
+    "Max_Concurrent_Runs": 1,
+    "Job_Language": "python",
+    "Python_Lib": "joblib.zip",
+    "Python_Pip_Lib": "marshmallow-3.19.0-py3-none-any.whl",
+    "Extra_Jar": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "Number_Of_Workers": 2,
+    "Worker_Type": "G.1X"
+  }
