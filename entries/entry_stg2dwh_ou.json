@@ -1,5 +1,5 @@
 {
-    "job_id": "entry_stg2dwh_ou",
+    "job_id": "stg2dwh_ou",
     "step_function": "arn:aws:states:ap-southeast-1:{{ aws_account }}:stateMachine:{{ prefix_orcs }}-orcs_glue_job_v1",
     "data_time": {
       "type": "date",
@@ -10,29 +10,16 @@
         }
       }
     },
-    "finish_events": [
-      {
-        "name": "entry_stg2dwh_ou",
-        "forward_params": true
-      }
-    ],
-    "trigger_events": [
-      "entry_tbaadm_sol",
-      "entry_tbaadm_sst",
-      "entry_tbaadm_stid",
-      "entry_tbaadm_rct"
-    ],
     "conditions": [
       {
         "name" : "all_jobs_succeeded",  
         "params" : {
              "job_ids" : [
-              "entry_tbaadm_sol",
-              "entry_tbaadm_sst",
-              "entry_tbaadm_stid",
-              "entry_tbaadm_rct"
-            ],
-             "within"  : 86400
+              "tbaadm_sol",
+              "tbaadm_sst",
+              "tbaadm_stid",
+              "tbaadm_rct"
+            ]
          }
       }
     ],
