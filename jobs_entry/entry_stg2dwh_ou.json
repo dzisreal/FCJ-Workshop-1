@@ -23,7 +23,6 @@
          }
       }
     ],
-    "priority": 1,
     "step_function_input": {
       "glue_job_config": {
         "Inputs": [
