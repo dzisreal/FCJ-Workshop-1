@@ -64,10 +64,7 @@
           }
         ]
       },
-      "glue_job": "{{ prefix_glue_job }}-dwh-ou",
-      "glue_crawler": []
     },
-    "is_disable": false,
     "tags": [
       "dwh",
       "ou"
