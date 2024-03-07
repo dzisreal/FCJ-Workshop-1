@@ -1,7 +1,7 @@
 {
     "job_id": "stg2dwh_ou",
     "step_function": "arn:aws:states:ap-southeast-1:{{ aws_account }}:stateMachine:{{ prefix_orcs }}-orcs_glue_job_v1",
-    "data_time": {
+    "data_date": {
       "type": "date",
       "extract": {
         "func": "get_event_data_date",
