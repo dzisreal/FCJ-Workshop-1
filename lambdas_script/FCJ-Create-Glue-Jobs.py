@@ -4,6 +4,7 @@ import json
 # Khởi tạo client CodeCommit
 codecommit = boto3.client('codecommit')
 glue_client = boto3.client('glue')
+codepipeline = boto3.client('codepipeline')
     
 def get_files_jobs_name(folder_path,repository_name):
     lst_files_name = []
@@ -74,3 +75,5 @@ def lambda_handler(event, context):
     lst_jobs_name,lst_files_name = get_files_jobs_name(folder_script_path,repository_name)
     
     check_exist_and_create(lst_jobs_name)
+    job_id = event['CodePipeline.job']['id']
+    codepipeline.put_job_success_result(jobId = job_id)

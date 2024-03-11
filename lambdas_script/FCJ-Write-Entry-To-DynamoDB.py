@@ -4,6 +4,7 @@ import json
 # Khởi tạo client CodeCommit
 codecommit = boto3.client('codecommit')
 dynamodb = boto3.resource('dynamodb')
+codepipeline = boto3.client('codepipeline')
 
 def read_file_write_to_dynamodb(path_entry_folder,repository_name):
     lst_files_path = [] #list file path of folder
@@ -48,3 +49,6 @@ def lambda_handler(event, context):
     folder_path = 'jobs_entry/'
     
     read_file_write_to_dynamodb(folder_path,repository_name)
+    
+    job_id = event['CodePipeline.job']['id']
+    codepipeline.put_job_success_result(jobId = job_id )
